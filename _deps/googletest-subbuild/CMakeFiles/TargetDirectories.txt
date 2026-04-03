@@ -1,0 +1,3 @@
+C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate.dir
+C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/build/_deps/googletest-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/build/_deps/googletest-subbuild/CMakeFiles/rebuild_cache.dir

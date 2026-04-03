@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/build/cmake_install.cmake",
+		"C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/build/_deps/googletest-build/cmake_install.cmake",
+		"C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/build/_deps/googletest-build/googlemock/cmake_install.cmake",
+		"C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/build/_deps/googletest-build/googletest/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
