@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/build/RunTests[1]_tests.cmake")
-  include("C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/build/RunTests[1]_tests.cmake")
-else()
-  add_test(RunTests_NOT_BUILT RunTests_NOT_BUILT)
-endif()
