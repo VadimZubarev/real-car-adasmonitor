@@ -51,7 +51,10 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 # объявить исполняемый файл RunTests для тестов
-add_executable(RunTests tests/test_obd_parser.cpp)
+add_executable(RunTests 
+    tests/test_obd_parser.cpp
+    src/obd_parser.cpp)
+
 target_link_libraries(RunTests PRIVATE gtest_main gtest)
 include(GoogleTest)
 gtest_discover_tests(RunTests)
