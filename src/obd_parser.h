@@ -7,9 +7,9 @@
 #include <ctime>
 
 enum class DrivingStyle {
-    SLOW,
-    NORMAL,
     AGGRESSIVE,
+    NORMAL,
+    SLOW,
     UNKNOWN
 };
 

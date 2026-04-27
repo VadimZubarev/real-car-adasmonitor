@@ -12,7 +12,7 @@ find_package(OpenCV REQUIRED)
 set(SOURCES
     src/main.cpp
     src/obd_parser.cpp
-    src/onnx_classifier.cpp
+    src/onnx_classifier_wrapper.cpp
     src/dashboard.cpp
     src/dms_monitor.cpp
     src/dms_hud.cpp
@@ -24,17 +24,24 @@ add_executable(RealCarMonitor ${SOURCES})
 # ONNX Runtime по пути C:/onnxruntime
 # find_package(onnxruntime REQUIRED PATHS "C:/onnxruntime" NO_DEFAULT_PATH)
 
+add_library(onnx_wrapper SHARED IMPORTED)
+
+set_target_properties(onnx_wrapper PROPERTIES
+    IMPORTED_IMPLIB "C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/onnx_wrapper/libonnx_wrapper.a"
+    IMPORTED_LOCATION "C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/onnx_wrapper/build/Debug/onnx_wrapper.dll"
+)
+
 # Подключаем найденные библиотеки к основному проекту
 target_link_libraries(RealCarMonitor PRIVATE 
     ${OpenCV_LIBS}
-    # onnxruntime::onnxruntime
+    C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/onnx_wrapper/build/Debug/onnx_wrapper.lib
 )
 
 # Добавляем пути к заголовочным файлам
 target_include_directories(RealCarMonitor PRIVATE 
     ${OpenCV_INCLUDE_DIRS}
     src
-    # "C:/onnxruntime/include"
+    C:/Users/vadim.zubarev/Documents/Polytech/Dubrovskiy/CLang/project/real-car-adas-monitor/onnx_wrapper
 )
 
 # подключить Google Test через FetchContent
