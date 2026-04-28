@@ -1,97 +1,32 @@
-#include <iostream>
-#include <obd_parser.h>
-#include "onnx_classifier_wrapper.h"
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+
+#include "dashboard.h"
 
 int main() {
-    OBDParser parser;
-    
-    try {
-        parser.parseCSVFile("../data/data.csv");
-        int slow, normal, aggressive, unknown;
-        int n = 5;
+    cv::Mat frame(480, 1280, CV_8UC3, cv::Scalar(40, 40, 40));
+    cv::rectangle(frame, cv::Rect(640, 0, 640, 480), cv::Scalar(60, 55, 45), cv::FILLED);
+    cv::putText(frame,
+                "Static camera frame area",
+                cv::Point(790, 240),
+                cv::FONT_HERSHEY_SIMPLEX,
+                0.8,
+                cv::Scalar(220, 220, 220),
+                2,
+                cv::LINE_AA);
 
-        for (int i = 0; i < n; i++) {
-            parser.printRecord(i);
-        }
+    OBDRecord testRecord;
+    testRecord.setSpeed(102);
+    testRecord.setRPM(4700);
+    testRecord.setCoolantTemp(107.0);
+    testRecord.setFuelLevel(12.0);
+    testRecord.setThrottlePos(68.0);
+    testRecord.setStyle(DrivingStyle::AGGRESSIVE);
 
-        parser.getStyleStatistics(n, slow, normal, aggressive, unknown);
-        
-        std::cout << "SLOW: " << slow << std::endl;
-        std::cout << "NORMAL: " << normal << std::endl;
-        std::cout << "AGGRESSIVE: " << aggressive << std::endl;
-        std::cout << "UNKNOWN: " << unknown << std::endl;
-        
-        // parser.printAllRecords();        
-    } catch (const std::out_of_range& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
+    Dashboard dashboard(640, 480);
+    dashboard.draw(frame, testRecord);
 
-
-    // Загрузите первые 20 записей из CSV, классифицируйте каждую, выведите таблицу:
-    // истинная метка – предсказание – уверенность. Подсчитайте точность.
-    // git commit -m "feat: ONNX classifier module"
-
-    try {
-        parser.parseCSVFile("../data/data.csv");
-    
-        ONNXClassifier classifier(
-            "../models/driver_classifier.onnx",
-            "../models/normalization_params.json"
-        );
-    
-        int n = 1000;
-        int count = 0;
-    
-        int correct = 0;
-    
-        std::cout << "\nTRUE\tPRED\tCONFIDENCE\n";
-        std::cout << "---------------------------------\n";
-    
-        for (int i = 0; i < n; i++)
-        {
-            OBDRecord record = parser.getOBDRecord(i);
-
-            // Пропускаем записи с аномальными значениями
-            if (record.getCoolantTemp() < 30 || record.getCoolantTemp() > 130) {
-                continue;  // температура вне диапазона
-            }
-            if (record.getFuelLevel() < 5 || record.getFuelLevel() > 100) {
-                continue;  // топливо вне диапазона
-            }
-    
-            DrivingStyle true_label = record.getStyle();
-            count++;
-    
-            std::vector<float> input = {
-                static_cast<float>(record.getRPM()),
-                static_cast<float>(record.getSpeed()),
-                static_cast<float>(record.getThrottlePos()),
-                static_cast<float>(record.getCoolantTemp()),
-                static_cast<float>(record.getFuelLevel())
-            };
-    
-            ClassificationResult result = classifier.predict(input);
-    
-            std::cout
-                << static_cast<int>(true_label) << "\t"
-                << static_cast<int>(result.label) << "\t"
-                << result.confidence << "\n";
-    
-            if (static_cast<int>(result.label) == static_cast<int>(true_label))
-                correct++;
-        }
-    
-        float accuracy = static_cast<float>(correct) / count;
-    
-        std::cout << "---------------------------------\n";
-        std::cout << "Accuracy: " << accuracy << std::endl;
-        std::cout << "Correct: " << correct << std::endl;
-    
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
-    
+    cv::imshow("Dashboard test", frame);
+    cv::waitKey(0);
     return 0;
 }
